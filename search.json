@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Mongoose CRUD",
+    "section": "",
+    "text": "const express = require('express');\nconst mongoose = require('mongoose');\nconst bodyParser = require('body-parser');\n\n// Connect to MongoDB\nmongoose.connect('mongodb://host:port/database', {\n  useNewUrlParser: true,\n  useUnifiedTopology: true\n});\n\nconst connection = mongoose.connection;\n\nconnection.once('open', () => {\n  console.log('MongoDB connected successfully!');\n});\n\n// Create a Mongoose model\nconst Item = mongoose.model('Item', {\n  name: String,\n});\n\n// Create an Express app\nconst app = express();\n\n// Use body-parser middleware\napp.use(bodyParser.json());\n\n// Create a route to get all items\napp.get('/items', async (req, res) => {\n  const items = await Item.find();\n  res.json(items);\n});\n\n// Create a route to create a new item\napp.post('/items', async (req, res) => {\n  const item = new Item({\n    name: req.body.name\n  });\n  await item.save();\n  res.json(item);\n});\n\n// Create a route to update an item\napp.put('/items/:id', async (req, res) => {\n  const item = await Item.findByIdAndUpdate(req.params.id, {\n    name: req.body.name\n  }, {\n    new: true\n  });\n  res.json(item);\n});\n\n// Create a route to delete an item\napp.delete('/items/:id', async (req, res) => {\n  await Item.findByIdAndRemove(req.params.id);\n  res.send('Deleted');\n});\n\n// Start the server on port 3000\napp.listen(3000, () => {\n  console.log('Server running on port 3000');\n});"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  }
+]
